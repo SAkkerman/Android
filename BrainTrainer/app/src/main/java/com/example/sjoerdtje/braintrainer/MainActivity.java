@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     TextView highScores;
     TextView newHighScores;
     int highScore;
+    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        SharedPreferences prefs=this.getPreferences(Context.MODE_PRIVATE);
+        prefs = this.getPreferences(Context.MODE_PRIVATE);
         highScore = prefs.getInt("highScore", 0);
 
         highScores = (TextView)findViewById(R.id.highScores);
@@ -70,6 +71,14 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
+
+        if (id == R.id.action_reset) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt("highScore", 0);
+            editor.commit();
+            highScores.setText("highScore: " + 0);
+        }
+
 
         return super.onOptionsItemSelected(item);
     }
